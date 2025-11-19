@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MilasBowtiqueStore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* Base styles */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      color: #202020;
+      /* subtle marble-like background */
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.03), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(0, 0, 0, 0.02), transparent 55%),
+        radial-gradient(circle at 0% 80%, rgba(0, 0, 0, 0.025), transparent 55%),
+        #fafafa;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout helpers */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Header & nav */
+    .site-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e3e3e3;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+    }
+
+    .logo-main {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 0.04em;
+    }
+
+    .logo-sub {
+      display: block;
+      font-size: 0.8rem;
+      opacity: 0.75;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav a {
+      margin-left: 1.25rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.25rem;
+      width: 0;
+      height: 1px;
+      background: #000000;
+      transition: width 0.2s ease;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav-shop {
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid #000;
+      margin-left: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-shop::after {
+      display: none;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 2.75rem 0 2.5rem;
+    }
+
+    .hero-inner {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+      padding: 1.75rem 1.5rem 2rem;
+    }
+
+    .hero-banner {
+      border-radius: 0.75rem;
+    }
+
+    .hero-cta {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .hero-cta p {
+      margin: 0 0 0.75rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    /* Buttons */
+    .btn-primary,
+    .btn-secondary {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s;
+    }
+
+    .btn-primary {
+      background: #000000;
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #d4d4d4;
+    }
+
+    .btn-secondary:hover {
+      background: #f5f5f5;
+    }
+
+    .shop-btn {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Sections */
+    .section {
+      padding: 3rem 0;
+    }
+
+    .section-alt {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .section h2 {
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-subtitle {
+      margin-top: 0;
+      margin-bottom: 2rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Products grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 0.9rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.04);
+      border: 1px solid #ececec;
+    }
+
+    .product-card h3 {
+      margin-top: 0;
+      margin-bottom: 0.2rem;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .product-price {
+      margin-top: 0.2rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .product-details {
+      padding-left: 1.2rem;
+      margin: 0 0 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .product-note {
+      margin: 0;
+      font-size: 0.88rem;
+      color: #555;
+    }
+
+    /* Steps / How to order */
+    .steps-list {
+      margin: 0 0 2rem;
+      padding-left: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .steps-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    .order-box {
+      background: #ffffff;
+      border-radius: 0.9rem;
+      padding: 1.5rem;
+      border: 1px solid #e2e2e2;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .contact-notes {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #ffffff;
+      border-top: 1px solid #e3e3e3;
+      padding: 1rem 0;
+      margin-top: 1rem;
+    }
+
+    .footer-content {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .footer-small {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .nav a {
+        margin-left: 0;
+      }
+
+      .hero-inner {
+        padding: 1.25rem 1rem 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="logo">
+        <span class="logo-main">MilasBowtiqueStore</span>
+        <span class="logo-sub">Custom High Quality Items • Made With Love</span>
+      </div>
+      <nav class="nav">
+        <a href="#products">Products</a>
+        <a href="#how-to-order">How to Order</a>
+        <a href="#contact">Contact</a>
+        <!-- Nav shop now goes to Venmo -->
+        <a href="https://venmo.com/@josephinedee" target="_blank" rel="noopener" class="nav-shop">
+          Shop Now
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section with Banner -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <img
+          src="milas-banner.png"
+          alt="Milas Bowtique Store - Custom high quality items for all occasions at affordable prices"
+          class="hero-banner"
+        />
+        <div class="hero-cta">
+          <p>Custom apparel & accessories for every occasion.</p>
+          <!-- Hero Shop Now goes to Venmo -->
+          <a class="btn-primary shop-btn" href="https://venmo.com/@josephinedee" target="_blank" rel="noopener">
+            Shop Now
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section">
+      <div class="container">
+        <h2>Products</h2>
+        <p class="section-subtitle">Choose your style, size, and personalization.</p>
+
+        <div class="product-grid">
+
+          <!-- Hoodie -->
+          <article class="product-card">
+            <h3>Custom Hoodie</h3>
+            <p class="product-price">$35</p>
+            <ul class="product-details">
+              <li>Youth & Adult Sizes Available</li>
+              <li>Multiple color options</li>
+              <li>Optional: Name & Number</li>
+            </ul>
+            <p class="product-note">Soft, cozy, and perfect for everyday wear.</p>
+          </article>
+
+          <!-- T-Shirt -->
+          <article class="product-card">
+            <h3>Custom T-Shirt</h3>
+            <p class="product-price">$22</p>
+            <ul class="product-details">
+              <li>Youth & Adult Sizes Available</li>
+              <li>Multiple color options</li>
+              <li>Optional: Name & Number</li>
+            </ul>
+            <p class="product-note">Lightweight, comfortable, and great for custom designs.</p>
+          </article>
+
+          <!-- Special / Bundles -->
+          <article class="product-card">
+            <h3>Special Orders & Bundles</h3>
+            <p class="product-price">Custom Pricing</p>
+            <ul class="product-details">
+              <li>Birthday sets & family shirts</li>
+              <li>School / team apparel</li>
+              <li>Themed & seasonal collections</li>
+            </ul>
+            <p class="product-note">Tell us your idea and we’ll bring it to life.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Order Section -->
+    <section id="how-to-order" class="section section-alt">
+      <div class="container">
+        <h2>How to Order</h2>
+        <ol class="steps-list">
+          <li>Choose your product (hoodie, T-shirt, or bundle).</li>
+          <li>Select your size, color, and personalization details.</li>
+          <li>Fill out the order form with all information.</li>
+          <li>Send payment via Venmo to confirm your order.</li>
+        </ol>
+
+        <div class="order-box">
+          <h3>Order Form</h3>
+          <p>
+            Once you create your Google Form or other order form,
+            you can link it here.
+          </p>
+          <a class="btn-secondary" href="#" target="_blank" rel="noopener">
+            Open Order Form
+          </a>
+
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #eee;" />
+
+          <h3>Pay with Venmo</h3>
+          <p>
+            Send payment to <strong>@josephinedee</strong> on Venmo.
+            Please include your <strong>name, item, size, and color</strong> in the note.
+          </p>
+          <a class="btn-primary" href="https://venmo.com/@josephinedee" target="_blank" rel="noopener">
+            Pay on Venmo
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
+        <p class="section-subtitle">
+          Questions about designs, orders, or custom requests? Reach out anytime.
+        </p>
+
+        <div class="contact-grid">
+          <div>
+            <h3>MilasBowtiqueStore</h3>
+            <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+            <p>Instagram: @MilasBowtiqueStore</p>
+            <p>Venmo: <strong>@josephinedee</strong></p>
+          </div>
+          <div>
+            <h3>Order Notes</h3>
+            <ul class="contact-notes">
+              <li>Please double-check spelling for names and numbers.</li>
+              <li>Include your order details in the Venmo note.</li>
+              <li>Turnaround time depends on order size & design.</li>
+              <li>Rush orders may be available upon request.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© <span id="year"></span> MilasBowtiqueStore</p>
+      <p class="footer-small">Custom high quality items • Made with love</p>
+    </div>
+  </footer>
+
+  <script>
+    const yearSpan = document.getElementById("year");
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
